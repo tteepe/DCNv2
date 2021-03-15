@@ -47,7 +47,7 @@ jobs:
           
     - name: Install dependencies
       run: |
-        pip install torch==1.7.0+cu110 --upgrade --quiet --find-links https://download.pytorch.org/whl/gpu/torch_stable.html
+        pip install torch==1.7.0+cu110 --upgrade --quiet --find-links https://download.pytorch.org/whl/torch_stable.html
         python --version
         pip --version
         pip list
