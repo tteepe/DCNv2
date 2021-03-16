@@ -1,5 +1,7 @@
 ## Deformable Convolutional Networks V2 with Pytorch 1.X
 
+[![CI testing](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml)
+
 ### Build
 ```bash
     ./make.sh         # build
