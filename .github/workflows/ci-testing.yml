@@ -54,7 +54,7 @@ jobs:
       shell: bash
       
     - name: Install CUDA
-      if:  matrix.type == "gpu"
+      if:  matrix.type == gpu
       env:
         cuda: ${{ matrix.cuda-version }}
       run: |
@@ -78,7 +78,7 @@ jobs:
           sh make.sh
           
     - name: Run test
-      if:  matrix.type == "cpu"
+      if:  matrix.type == cpu
       run: |
           cd DCN
           python testcpu.py
