@@ -19,6 +19,7 @@ jobs:
         os: [ubuntu-20.04]
         python-version: [3.8]
         cuda-version: [11.2]
+        type: [cpu, gpu]
 
     # Timeout: https://stackoverflow.com/a/59076067/4521646
     timeout-minutes: 35
@@ -40,19 +41,20 @@ jobs:
       uses: actions/cache@v2.1.4
       with:
         path: ${{ steps.pip-cache.outputs.dir }}
-        key: ${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
+        key: ${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles(format('requirements-{0}.txt', ${{ matrix.type }})) }}
         restore-keys: |
           ${{ runner.os }}-py${{ matrix.python-version }}-
           
     - name: Install dependencies
       run: |
-        pip install torch==1.7.0+cu110 --upgrade --quiet --find-links https://download.pytorch.org/whl/torch_stable.html
+        pip install -r format('requirements-{0}.txt', ${{ matrix.type }})  --upgrade --quiet --find-links https://download.pytorch.org/whl/torch_stable.html
         python --version
         pip --version
         pip list
       shell: bash
       
     - name: Install CUDA
+      if:  matrix.type == "gpu"
       env:
         cuda: ${{ matrix.cuda-version }}
       run: |
@@ -76,6 +78,7 @@ jobs:
           sh make.sh
           
     - name: Run test
+      if:  matrix.type == "cpu"
       run: |
           cd DCN
-          python testcuda.py
+          python testcpu.py
