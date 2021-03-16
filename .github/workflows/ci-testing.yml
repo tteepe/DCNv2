@@ -41,13 +41,13 @@ jobs:
       uses: actions/cache@v2.1.4
       with:
         path: ${{ steps.pip-cache.outputs.dir }}
-        key: ${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles(format('requirements-{0}.txt', ${{ matrix.type }})) }}
+        key: ${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles(format('requirements-{0}.txt', matrix.type)) }}
         restore-keys: |
           ${{ runner.os }}-py${{ matrix.python-version }}-
           
     - name: Install dependencies
       run: |
-        pip install -r format('requirements-{0}.txt', ${{ matrix.type }})  --upgrade --quiet --find-links https://download.pytorch.org/whl/torch_stable.html
+        pip install -r ${{ format('requirements-{0}.txt', matrix.type) }}  --upgrade --quiet --find-links https://download.pytorch.org/whl/torch_stable.html
         python --version
         pip --version
         pip list
