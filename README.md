@@ -9,8 +9,8 @@
 ### Test
 ```bash
 cd tests
-python test_cuda.py    # run examples and gradient check on gpu
-python test_cpu.py  # run examples and gradient check on cpu 
+python test_cuda.py  # run examples and gradient check on gpu
+python test_cpu.py   # run examples and gradient check on cpu 
 ```
 ### Note
 Now the master branch is for pytorch 1.x, you can switch back to pytorch 0.4 with,
