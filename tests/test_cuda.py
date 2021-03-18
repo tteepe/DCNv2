@@ -113,8 +113,8 @@ def check_gradient_dconv():
                 deformable_groups,
             ),
             eps=1e-3,
-            atol=1e-4,
-            rtol=1e-2,
+            atol=1e-3,
+            rtol=1e-4,
         ),
     )
 

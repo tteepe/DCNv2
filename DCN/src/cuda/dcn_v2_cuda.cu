@@ -66,7 +66,7 @@ dcn_v2_cuda_forward(const at::Tensor &input,
 
     auto ones = at::ones({batch, bias.sizes()[0], height_out, width_out}, input.options());
     auto columns = at::empty({batch, channels * kernel_h * kernel_w, 1 * height_out * width_out}, input.options());
-    auto output = at::empty({batch, channels_out, height_out, width_out}, input.options());
+    auto output = at::zeros({batch, channels_out, height_out, width_out}, input.options());
 
     // Add biases to output tensor
     // torch implementation
@@ -76,14 +76,14 @@ dcn_v2_cuda_forward(const at::Tensor &input,
     output = at::add(output, ones_T);
 
     modulated_deformable_im2col_cuda(c10::cuda::getCurrentCUDAStream(),
-                                     input.data_ptr<scalar_t>(),
-                                     offset.data_ptr<scalar_t>(),
-                                     mask.data_ptr<scalar_t>(),
-                                     batch, channels, height, width,
-                                     height_out, width_out, kernel_h, kernel_w,
-                                     pad_h, pad_w, stride_h, stride_w, dilation_h, dilation_w,
-                                     deformable_group,
-                                     columns.data_ptr<scalar_t>());
+                                 input.data_ptr<scalar_t>(),
+                                 offset.data_ptr<scalar_t>(),
+                                 mask.data_ptr<scalar_t>(),
+                                 batch, channels, height, width,
+                                 height_out, width_out, kernel_h, kernel_w,
+                                 pad_h, pad_w, stride_h, stride_w, dilation_h, dilation_w,
+                                 deformable_group,
+                                 columns.data_ptr<scalar_t>());
 
     // Scale columns and add to output
     // torch implementation
