@@ -3,8 +3,14 @@
 [![CI testing](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml)
 
 ## Requirements
-- pytorch
-- ninja build
+- [PyTorch 1.8+](https://pytorch.org/get-started/locally/)
+- [Ninja build](https://ninja-build.org)
+
+```bash
+pip install torch torchvision torchaudio
+
+sudo apt-get install ninja-build
+```
 
 ### Test
 ```bash
