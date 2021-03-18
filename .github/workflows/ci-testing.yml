@@ -81,5 +81,5 @@ jobs:
       run: |
         export PYTHONPATH=${PWD}/DCN:$PYTHONPATH
         cd tests
-        CUDA_VISIBLE_DEVICES="" python test_cpu.py
+        python test_cpu.py
       shell: bash
