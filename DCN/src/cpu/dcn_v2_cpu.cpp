@@ -1,5 +1,5 @@
 #include <vector>
-#include "cpu/dcn_v2_im2col_cpu.h"
+#include "dcn_v2_im2col_cpu.h"
 #include <iostream>
 
 #include <ATen/ATen.h>
@@ -77,7 +77,7 @@ dcn_v2_cpu_forward(const at::Tensor &input,
         auto offset_n = offset.select(0, b);
         auto mask_n = mask.select(0, b);
         auto output_n = output.select(0, b);
-        // std::cout << "output_n: " << output_n << "output.select(0,b): " << output.select(0,b) << "\n"; 
+        // std::cout << "output_n: " << output_n << "output.select(0,b): " << output.select(0,b) << "\n";
 
         // Do Bias first:
         // M,N,K are dims of matrix A and B
@@ -173,8 +173,6 @@ std::vector<at::Tensor> dcn_v2_cpu_backward(const at::Tensor &input,
         auto grad_offset_n = grad_offset.select(0, b);
         auto grad_mask_n = grad_mask.select(0, b);
 
-
-
         // Torch implementation
         auto weight_flat = weight.view({channels_out, channels*kernel_h*kernel_w});
         weight_flat = at::transpose(weight_flat, 1, 0);
@@ -215,7 +213,6 @@ std::vector<at::Tensor> dcn_v2_cpu_backward(const at::Tensor &input,
         // Torch implementation
         auto product = at::matmul(grad_output_n_flat, at::transpose(columns, 1, 0));
         grad_weight = at::add(grad_weight, product.view({channels_out, channels, kernel_h, kernel_w}));
-
 
         // Torch implementation
         auto ones_flat = ones.view({height_out*width_out});

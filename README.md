@@ -1,12 +1,16 @@
-## Deformable Convolutional Networks V2 with Pytorch 1.X
+## DCNv2 with Pytorch 1.8+ & JIT Compilation
 
 [![CI testing](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml)
 
-### Build
+## Requirements
+- pytorch
+- ninja build
+
+### Test
 ```bash
-    ./make.sh         # build
-    python testcpu.py    # run examples and gradient check on cpu
-    python testcuda.py   # run examples and gradient check on gpu 
+cd tests
+python test_cuda.py    # run examples and gradient check on gpu
+python test_cpu.py  # run examples and gradient check on cpu 
 ```
 ### Note
 Now the master branch is for pytorch 1.x, you can switch back to pytorch 0.4 with,
@@ -15,7 +19,6 @@ git checkout pytorch_0.4
 ```
 
 ### Known Issues:
-
 - [x] Gradient check w.r.t offset (solved)
 - [ ] Backward is not reentrant (minor)
 
