@@ -114,7 +114,8 @@ def check_gradient_dconv():
             ),
             eps=1e-3,
             atol=1e-3,
-            rtol=1e-4,
+            rtol=1e-3,
+            nondet_tol=1e-7
         ),
     )
 
