@@ -10,4 +10,10 @@ setup(
     author_email='torben@tee.pe',
     url='https://gitlab.lrz.de/tteepe/DCNv2',
     packages=find_packages(),
+    package_data={
+        "": ["src/*.cpp",
+             "src/**/*.cpp",
+             "src/**/*.h",
+             "src/**/*.cu"],
+    }
 )
