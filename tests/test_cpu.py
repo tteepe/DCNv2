@@ -2,8 +2,9 @@ import torch
 import torch.nn as nn
 from torch.autograd import gradcheck
 
-from dcn_v2 import dcn_v2_conv, DCNv2, DCN
-from dcn_v2 import dcn_v2_pooling, DCNv2Pooling, DCNPooling
+from modulated_deform_conv import ModulatedDeformConv2d as DCNv2
+from modulated_deform_conv import ModulatedDeformConv2dPack as DCN
+from modulated_deform_conv import modulated_deform_conv2d as dcn_v2_conv
 
 deformable_groups = 1
 N, inC, inH, inW = 2, 2, 4, 4
@@ -293,15 +294,15 @@ def example_mdpooling():
 
 if __name__ == "__main__":
     example_dconv()
-    example_dpooling()
-    example_mdpooling()
+    # example_dpooling()
+    # example_mdpooling()
 
-    check_pooling_zero_offset()
+    # check_pooling_zero_offset()
     # zero offset check
     if inC == outC:
         check_zero_offset()
 
-    check_gradient_dpooling()
+    # check_gradient_dpooling()
     check_gradient_dconv()
     # """
     # ****** Note: backward is not reentrant error may not be a serious problem,

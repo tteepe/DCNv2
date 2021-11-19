@@ -2,8 +2,9 @@ import torch
 import torch.nn as nn
 from torch.autograd import gradcheck
 
-from dcn_v2 import dcn_v2_conv, DCNv2, DCN
-from dcn_v2 import dcn_v2_pooling, DCNv2Pooling, DCNPooling
+from modulated_deform_conv import ModulatedDeformConv2d as DCNv2
+from modulated_deform_conv import ModulatedDeformConv2dPack as DCN
+from modulated_deform_conv import modulated_deform_conv2d as dcn_v2_conv
 
 deformable_groups = 1
 N, inC, inH, inW = 2, 2, 4, 4
@@ -49,7 +50,8 @@ def check_zero_offset():
         stride=1,
         padding=1,
         dilation=1,
-        deformable_groups=deformable_groups,
+        groups=1,
+        deform_groups=deformable_groups,
     ).cuda()
 
     conv_offset.weight.data.zero_()
@@ -74,23 +76,35 @@ def check_zero_offset():
 
 
 def check_gradient_dconv():
-    input = torch.rand(N, inC, inH, inW).cuda() * 0.01
+    input = torch.rand(
+        (N, inC, inH, inW),
+        dtype=torch.double
+    ).cuda() * 0.01
     input.requires_grad = True
 
-    offset = torch.randn(N, deformable_groups * 2 * kW * kH, inH, inW).cuda() * 2
+    offset = torch.randn(
+        (N, deformable_groups * 2 * kW * kH, inH, inW),
+        dtype=torch.double
+    ).cuda() * 2
     # offset.data.zero_()
     # offset.data -= 0.5
     offset.requires_grad = True
 
-    mask = torch.rand(N, deformable_groups * 1 * kW * kH, inH, inW).cuda()
+    mask = torch.rand(
+        (N, deformable_groups * 1 * kW * kH, inH, inW),
+        dtype=torch.double
+    ).cuda()
     # mask.data.zero_()
     mask.requires_grad = True
     mask = torch.sigmoid(mask)
 
-    weight = torch.randn(outC, inC, kH, kW).cuda()
+    weight = torch.randn(
+        (outC, inC, kH, kW),
+        dtype=torch.double
+    ).cuda()
     weight.requires_grad = True
 
-    bias = torch.rand(outC).cuda()
+    bias = torch.rand(outC, dtype=torch.double).cuda()
     bias.requires_grad = True
 
     stride = 1
@@ -112,10 +126,7 @@ def check_gradient_dconv():
                 dilation,
                 deformable_groups,
             ),
-            eps=1e-3,
-            atol=1e-3,
-            rtol=1e-3,
-            nondet_tol=1e-7
+            nondet_tol=1e-6
         ),
     )
 
@@ -210,7 +221,7 @@ def example_dconv():
     input = torch.randn(2, 64, 128, 128).cuda()
     # wrap all things (offset and mask) in DCN
     dcn = DCN(
-        64, 64, kernel_size=(3, 3), stride=1, padding=1, deformable_groups=2
+        64, 64, kernel_size=(3, 3), stride=1, padding=1, groups=2
     ).cuda()
     # print(dcn.weight.shape, input.shape)
     output = dcn(input)
@@ -299,15 +310,15 @@ def example_mdpooling():
 
 if __name__ == "__main__":
     example_dconv()
-    example_dpooling()
-    example_mdpooling()
+    # example_dpooling()
+    # example_mdpooling()
 
-    check_pooling_zero_offset()
+    # check_pooling_zero_offset()
     # zero offset check
     if inC == outC:
         check_zero_offset()
-
-    check_gradient_dpooling()
+    #
+    # check_gradient_dpooling()
     check_gradient_dconv()
     # """
     # ****** Note: backward is not reentrant error may not be a serious problem,
