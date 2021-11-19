@@ -86,14 +86,16 @@ class ModulatedDeformConv2dFunction(Function):
         # whatever the pytorch version is.
         input = input.type_as(offset)
         weight = weight.type_as(input)
+        bias = bias.type_as(input)
+        mask = mask.type_as(input)
         ctx.save_for_backward(input, offset, mask, weight, bias)
         output = input.new_empty(
             ModulatedDeformConv2dFunction._output_size(ctx, input, weight))
         ctx._bufs = [input.new_empty(0), input.new_empty(0)]
         ext_module.modulated_deform_conv_forward(
             input,
-            weight.data,
-            bias.data,
+            weight,
+            bias,
             ctx._bufs[0],
             offset,
             mask,
@@ -207,7 +209,7 @@ class ModulatedDeformConv2d(nn.Module):
             self.register_parameter('bias', None)
 
         if deformable_groups:
-            self.deform_groups =deformable_groups
+            self.deform_groups = deformable_groups
         self.init_weights()
 
     def init_weights(self):
