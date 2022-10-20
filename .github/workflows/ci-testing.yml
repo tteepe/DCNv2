@@ -66,8 +66,7 @@ jobs:
 
     - name: Run JIT Compilation
       run: |
-        cd DCN
-        python dcn_v2.py
+        python DCN/dcn_v2.py
 
     - name: Run test
       if:  matrix.type == 'cpu'
