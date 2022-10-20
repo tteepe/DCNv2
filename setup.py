@@ -12,8 +12,10 @@ setup(
     packages=find_packages(),
     package_data={
         "": ["src/*.cpp",
+             "src/*.hpp",
              "src/**/*.cpp",
              "src/**/*.h",
-             "src/**/*.cu"],
+             "src/**/*.cu",
+             "src/**/*.cuh"],
     }
 )

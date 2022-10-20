@@ -1,14 +1,7 @@
 name: CI testing
 
 # see: https://help.github.com/en/actions/reference/events-that-trigger-workflows
-on:
-  # Trigger the workflow on push or pull request, but only for the master branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: [push]
 
 jobs:
   build:
@@ -18,7 +11,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         python-version: [3.8]
-        cuda-version: [11.2]
+        cuda-version: [11.8]
         type: [cpu, gpu]
 
     # Timeout: https://stackoverflow.com/a/59076067/4521646
