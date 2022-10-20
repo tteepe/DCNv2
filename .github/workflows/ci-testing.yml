@@ -66,6 +66,7 @@ jobs:
 
     - name: Run JIT Compilation
       run: |
+        export PYTHONPATH=${PWD}:$PYTHONPATH
         python DCN/dcn_v2.py
 
     - name: Run test
