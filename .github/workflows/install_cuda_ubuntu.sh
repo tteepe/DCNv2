@@ -145,4 +145,4 @@ export CUDA_PATH=${CUDA_PATH}
 # Quick test. @temp
 export PATH="$CUDA_PATH/bin:$PATH"
 export LD_LIBRARY_PATH="$CUDA_PATH/lib:$LD_LIBRARY_PATH"
-nvcc -V
+/usr/local/cuda-${CUDA_MAJOR}.${CUDA_MINOR}/bin/nvcc -V
