@@ -1,2 +1,2 @@
 
-from .modulated_deform_conv import *
+from modulated_deform_conv import *
