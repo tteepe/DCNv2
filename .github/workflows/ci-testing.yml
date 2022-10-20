@@ -11,7 +11,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         python-version: [3.8]
-        cuda-version: [11.2]
+        cuda-version: [11.8]
         type: [cpu, gpu]
 
     # Timeout: https://stackoverflow.com/a/59076067/4521646
