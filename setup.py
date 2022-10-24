@@ -16,6 +16,7 @@ setup(
              "src/**/*.cpp",
              "src/**/*.h",
              "src/**/*.cu",
-             "src/**/*.cuh"],
+             "src/**/*.cuh",
+             "src/**/*.hpp"],
     }
 )
