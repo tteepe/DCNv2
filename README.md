@@ -1,4 +1,22 @@
-## DCNv2 with Pytorch 1.8+ & JIT Compilation
+## Archived: DCNv2
+
+This repo has been archived! But there is a great maintained alternative by [MMCV](https://mmcv.readthedocs.io/en/latest/).
+
+Use [this guide](https://mmcv.readthedocs.io/en/latest/get_started/installation.html#install-with-pip) to generate your install version, i.e.:
+```bash
+pip install mmcv-full==1.7.0 -f https://download.openmmlab.com/mmcv/dist/cu117/torch1.13/index.html
+```
+Then you can change your imports to replace your DCN layer:
+
+```python
+from mmcv.ops.deform_conv import DeformConv2d as DCN
+
+from mmcv.ops.modulated_deform_conv import ModulatedDeformConv2dPack as DCN
+```
+
+<hr>
+
+## Old: DCNv2 with Pytorch 1.8+ & JIT Compilation
 
 [![CI testing](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/tteepe/DCNv2/actions/workflows/ci-testing.yml)
 
